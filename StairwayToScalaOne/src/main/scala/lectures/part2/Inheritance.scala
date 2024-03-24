@@ -2,7 +2,7 @@ package lectures.part2
 
 import scala.language.postfixOps
 
-object InheritanceAndTraits extends App {
+object Inheritance extends App {
 
   class Animal {
     val creatureType = "wild"
@@ -28,7 +28,11 @@ object InheritanceAndTraits extends App {
 
   class Dog(override val creatureType: String = "Domesticated") extends Animal {
 //    override val creatureType: String = "Domesticated"
-    override infix def eat : Unit = println("Crunch, cruch")
+    override infix def eat : Unit =  {
+      // Super. Calls parent method
+      super.eat
+      println("Crunch, cruch")
+    }
   }
 
   val dog = new Dog
@@ -38,4 +42,9 @@ object InheritanceAndTraits extends App {
 
   val unknownAnimal = new Dog("k9")
   unknownAnimal.eat
+
+  // preventing overrides
+  // use final on memeber
+  // use final on the entire class
+  // use seal on the class
 }
