@@ -86,8 +86,22 @@ object Options extends App {
    */
   connectionStatus.foreach(println)
 
+  // Adding Option as type hint
   val connectionFor: Option[Connection] = host.flatMap(h => port.flatMap(p => Connection.apply(h, p)))
   val connectionStatusFor: Option[String] = connectionFor.map(x => x.connect)
 
   println(connectionStatusFor)
+
+  // chained solutions
+  config.get("host")
+    .flatMap(h => config.get("port")
+      .flatMap(p => Connection(h, p)))
+    .map(_.connect).foreach(println)
+
+  val forConnectionStatus = for {
+    host <- config.get("host")
+    port <- config.get("port")
+    connection <- Connection.apply(host, port)
+  } yield connection.connect
+  forConnectionStatus.foreach(println)
 }
